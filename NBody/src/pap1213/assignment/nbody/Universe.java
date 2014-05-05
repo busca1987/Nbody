@@ -1,11 +1,13 @@
 package pap1213.assignment.nbody;
 
+import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
 
 public class Universe extends Thread {
 
 	private boolean stop;
+	private boolean isFirstTime;
     private UniverseFrame frame;
     private Context context;
     private int nBody;
@@ -13,9 +15,13 @@ public class Universe extends Thread {
 	private Semaphore readLock;
 	private CountDownLatch writeLatch;
 	private CountDownLatch doneLatch;
+	private ArrayList<Body> bodies;
+	private P2d[] pos;
+	
 	
     public Universe(){
         stop = false;
+        isFirstTime = true;
         frame = new UniverseFrame();
         frame.setVisible(true);
    }
@@ -33,16 +39,37 @@ public class Universe extends Thread {
     	this.nBody = nBody;
     }
     
-    public void setContext (Context ctx)
-    {
-    	this.context = ctx;
+    public void setBodies(ArrayList<Body> bodies) {
+		this.bodies = bodies;
+	}
+    
+    public P2d[] getPositions(){
+    	for(int i = 0; i<nBody; i++){
+    		pos[i] = bodies.get(i).getPos();
+    		System.out.println("Il corpo "+i+" ha posizione: ("+pos[i].x+", "+pos[i].y+")");
+    	}
+    	System.out.println("Ciclo finito");
+    	return pos;
     }
+    
+    public synchronized void setPos(P2d[] p){
+    	this.pos = p;
+    }
+    
     
     public void run(){
         while (!stop) {
         	
+        	//*** Faccio partire tutti i corpi, o devono partire prima dell'universe? forse ha piu' senso farli partire direttamente nel ciclo sopra dopo averli aggiunti all'array
+    		if(isFirstTime){
+    			isFirstTime=false;
+    			for (int i=0; i<nBody; i++){
+    				bodies.get(i).start();
+    			}
+    		}
+        	
             try {
-            	frame.updatePosition(context.getPositions());
+            	frame.updatePosition(getPositions());
                 readLock.release(nBody);
 				writeLatch.await();
 				writeLock.release(nBody);
@@ -51,8 +78,9 @@ public class Universe extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+            
+            
             //Faccio leggere le nuove posizioni
-
             
             try {
                 Thread.sleep(20);     

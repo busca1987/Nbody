@@ -18,6 +18,7 @@ public class Body extends Thread {
 	private boolean stop;
 	private int p;
 	private ArrayList<Body> bodies;
+	private P2d o;
 	
 	private Semaphore writeLock;
 	private Semaphore readLock;
@@ -37,6 +38,7 @@ public class Body extends Thread {
 	    this.readLock = readLock;
 	    this.writeLatch = writeLatch;
 	    this.doneLatch = doneLatch;
+	    this.o = new P2d(0,0);
 	}
 
 	// update the velocity and position using a timestep dt
@@ -49,9 +51,10 @@ public class Body extends Thread {
 		pos.y += (vel.y + ((dt * fy / mass) /2)) * dt;
 	  }
 	
-	//*** ci va synchronized?
-    public synchronized P2d getPos(){
-        return new P2d(pos.x,pos.y);
+    public P2d getPos(){
+        //return new P2d(pos.x,pos.y);
+    	o.setPos(pos.x, pos.y);
+    	return o;
     }
     
     public void run(){

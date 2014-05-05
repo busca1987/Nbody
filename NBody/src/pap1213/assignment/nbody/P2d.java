@@ -30,5 +30,10 @@ public class P2d implements java.io.Serializable {
     public String toString(){
         return "P2d("+x+","+y+")";
     }
+    
+    public void setPos(double a, double b){
+    	this.x = a;
+    	this.y = b;
+    }
 
 }

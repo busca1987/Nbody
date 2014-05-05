@@ -14,10 +14,11 @@ public class Context {
 	private Semaphore readLock;
 	private CountDownLatch writeLatch;
 	private CountDownLatch doneLatch;
+	private P2d[] pos;
 
-	public Context (Universe universe)
+	public Context ()
 	{
-		this.universe = universe;
+		universe = new Universe();
 		bodies = new ArrayList<Body>();		
 	}
 	
@@ -58,12 +59,14 @@ public class Context {
 		//una volta creati i corpi faccio partire l'universo, ***la variabile stop di universe dobbiamo usarla?
 		//*** e' meglio mettere la variabile di default a true e quando si crea l'universo fare partire start direttamente
 		//e poi usare la variabile stop per fermare e fare partire il thread
+		universe.setBodies(bodies);
+		pos = new P2d[nbody];
+		pos = getPositions();
+		universe.setPos(pos);
+		
 		universe.start();
 		
-		//*** Faccio partire tutti i corpi, o devono partire prima dell'universe? forse ha piu' senso farli partire direttamente nel ciclo sopra dopo averli aggiunti all'array
-		for (int i=0; i<bodyNumber(); i++){
-			bodies.get(i).start();
-		}
+		
 	}
 	
 	public int bodyNumber ()
@@ -71,7 +74,7 @@ public class Context {
 		return bodies.size();
 	}
 	
-	public synchronized P2d[] getPositions(){
+	public P2d[] getPositions(){
         P2d[] array = new P2d[bodies.size()];
         for (int i=0; i<array.length; i++){
             array[i] = ((Body)bodies.get(i)).getPos();
@@ -79,8 +82,4 @@ public class Context {
         return array;
     }
 	
-	public void bodiesUpdatePositions ()
-	{
-
-	}
 }
