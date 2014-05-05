@@ -10,7 +10,7 @@ public class Body extends Thread {
 	private static final double dt = 20;
 	//private static final double solarmass=1.98892e30;
 	
-	private P2d pos; 		  // cartesian position
+	private P2d pos; 		  // cartesian positionsss
 	private V2d vel;       	 // velocity 
 	public double fx, fy; 	// force
 	public double mass;    // mass
