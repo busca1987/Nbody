@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
 
+import javax.rmi.CORBA.Util;
+
 public class Universe extends Thread {
 
 	private boolean stop;
@@ -17,6 +19,7 @@ public class Universe extends Thread {
 	private CountDownLatch doneLatch;
 	private ArrayList<Body> bodies;
 	private P2d[] pos;
+	private int cores;
 	
 	
     public Universe(){
@@ -24,6 +27,8 @@ public class Universe extends Thread {
         isFirstTime = true;
         frame = new UniverseFrame();
         frame.setVisible(true);
+        cores = Runtime.getRuntime().availableProcessors();
+        System.out.println("Numero dei cores: "+cores);
    }
    
     public void setSemaphore (Semaphore writeLock,Semaphore readLock,CountDownLatch writeLatch,CountDownLatch doneLatch)

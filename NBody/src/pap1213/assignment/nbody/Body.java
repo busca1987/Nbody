@@ -62,8 +62,10 @@ public class Body extends Thread {
     	while (!stop) {
         
     		try {
+    			System.out.println("*** "+p+" ***");
     			//Semaforo che aspetta la lettura, e viene sbloccato dall'universe con un signalAll(ndbody)
 				readLock.acquire();
+				System.out.println("@@@ "+p+" @@@");
 				
 				double tempfx = 0;
 				double tempfy = 0;
