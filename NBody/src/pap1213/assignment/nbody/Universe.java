@@ -72,7 +72,7 @@ public class Universe extends Thread {
     				bodies.get(i).start();
     			}
     		}
-        	
+        	System.out.println("Fine Start corpi");
             try {
             	frame.updatePosition(getPositions());
                 readLock.release(nBody);

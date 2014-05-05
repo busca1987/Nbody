@@ -28,7 +28,7 @@ public class Context {
 		bodies.clear();
 		readLock = new Semaphore(0);
 		writeLock = new Semaphore(0);
-		writeLatch = new CountDownLatch(0);
+		writeLatch = new CountDownLatch(nbody);
 		doneLatch = new CountDownLatch(nbody);
 		
 		universe.setSemaphore(writeLock, readLock, writeLatch, doneLatch);

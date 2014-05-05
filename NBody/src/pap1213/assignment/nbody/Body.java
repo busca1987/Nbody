@@ -62,10 +62,9 @@ public class Body extends Thread {
     	while (!stop) {
         
     		try {
-    			System.out.println("*** "+p+" ***");
+    			
     			//Semaforo che aspetta la lettura, e viene sbloccato dall'universe con un signalAll(ndbody)
 				readLock.acquire();
-				System.out.println("@@@ "+p+" @@@");
 				
 				double tempfx = 0;
 				double tempfy = 0;
@@ -81,9 +80,12 @@ public class Body extends Thread {
 	    		//Questo latch viene decrementato per ogni body, perchè quando il valore sarà 0 allora l'universe sbloccherà il semaforo writeLock per
 	    		//fare partire la scrittura concorrente
 	    		writeLatch.countDown();
+	    		System.out.println(p+" Ho fatto la lettura aspetto per scrivere");
 	    		writeLock.acquire();
+	    		System.out.println(p+" Sto scrivendo");
 	        	update(tempfx,tempfy);
 	        	doneLatch.countDown();
+	        	System.out.println(p+" Ho scritto");
 	        	
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
