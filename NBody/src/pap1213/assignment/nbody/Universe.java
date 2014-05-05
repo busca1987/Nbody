@@ -79,6 +79,7 @@ public class Universe extends Thread {
 				writeLatch.await();
 				writeLock.release(nBody);
 				doneLatch.await();
+				//Qui bisogna risettare i latch, oppure usare una cosa diversa tipo una CyclicBarrier
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
