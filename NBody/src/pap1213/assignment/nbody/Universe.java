@@ -65,7 +65,7 @@ public class Universe extends Thread {
     public void run(){
         while (!stop) {
         	
-        	//*** Faccio partire tutti i corpi, o devono partire prima dell'universe? forse ha piu' senso farli partire direttamente nel ciclo sopra dopo averli aggiunti all'array
+        	//*** Faccio partire tutti i corpi, o devono partire prima dell'universe? forsee ha piu' senso farli partire direttamente nel ciclo sopra dopo averli aggiunti all'array
     		if(isFirstTime){
     			isFirstTime=false;
     			for (int i=0; i<nBody; i++){
